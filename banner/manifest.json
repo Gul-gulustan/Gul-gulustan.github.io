@@ -1,0 +1,21 @@
+{
+  "version": "1.2.0",
+  "app": "SmartSacak",
+  "timestamp": "2026-08-13T22:17:38.401Z",
+  "sections": [
+    "banners"
+  ],
+  "counts": {
+    "tables": 0,
+    "categories": 0,
+    "products": 0,
+    "storeCategories": 0,
+    "storeProducts": 0,
+    "combos": 0,
+    "comboItems": 0,
+    "orders": 0,
+    "orderItems": 0,
+    "admins": 0,
+    "banners": 4
+  }
+}
