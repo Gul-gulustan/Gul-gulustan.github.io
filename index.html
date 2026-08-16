@@ -1,40 +1,4 @@
 <!doctype html>
-<!--
-  ============================================================================
-  Turkana — çiçek sitesi / flower site
-  ============================================================================
-  Veritabanı YOK, sunucu YOK.  |  No database, no backend.
-
-  Üç dosya / three files:
-    index.html  ← bu dosya: sadece sayfanın iskeleti / just the page skeleton
-    styles.css  ← görünüm / all the styling
-    app.js      ← CONFIG, BANNERS, T (yazılar), MENU ve mantık
-                  CONFIG, BANNERS, T (texts), MENU and the logic
-
-  Düzenlemen gereken yer app.js'in en üstüdür. / What you edit lives at the
-  top of app.js.
-
-  1) TELEFON NUMARASI  →  app.js içindeki CONFIG.phone alanına yaz.
-     Sipariş, telefonun MESAJ (SMS) uygulaması ile bu numaraya gönderilir.
-     PHONE NUMBER      →  set CONFIG.phone in app.js; ordering opens the
-     phone's own messages app with the order ready to send to that number.
-
-  2) ÜRÜN EKLEMEK      →  MENU listesinde her ürün TEK bir kayıt (tek div/kart):
-     ADD A PRODUCT     →  one entry per product inside MENU:
-
-        { id: "p1", name: { ru:"Имя", tk:"Ady" },
-          price: 12.5, image: "gul1.webp" }
-
-  3) RESİMLER          →  "uploads/" klasörüne koy, sadece dosya adını yaz.
-     IMAGES            →  drop the file into uploads/, reference the file name.
-
-  4) BANNER            →  BANNERS listesi. Kendiliğinden kayar, parmakla da
-                          sürüklenebilir. / auto-scrolls, also swipeable.
-
-  Parallax logo, dil değiştirici, koyu/açık tema ve ürün büyük resim penceresi
-  hazırdır. PDF yoktur.
-  ============================================================================
--->
 <html lang="ru" data-theme="dark">
   <head>
     <meta charset="utf-8" />
