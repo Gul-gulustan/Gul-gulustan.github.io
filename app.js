@@ -40,7 +40,7 @@ const CONFIG = {
   // One browser counts once per 24h, so it reads as "how many people".
   counter: {
     enabled: true,
-    name: "turkana-restoran-github-io", // benzersiz olsun / keep unique
+    name: "gul-gulistan-github-io", // benzersiz olsun / keep unique
     key: "visits",
     everyHours: 24, // 0 → her açılışı say / count every page load
   },
