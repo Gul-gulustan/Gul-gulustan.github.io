@@ -15,9 +15,9 @@
 const CONFIG = {
   // Siparişin SMS ile gideceği numara. Ülke kodu ile, başında + olabilir.
   // The order is sent here as a text message. Include the country code.
-  phone: "+99362998301",
+  phone: "+99362205334",
 
-  brand: "Turkana-Restoran", // üst barda görünen isim / name in the header
+  brand: "Gül Gülüstan", // üst barda görünen isim / name in the header
   currency: "m", // para birimi / currency symbol
   currencyAfter: true, // simge fiyatın sonunda mı? / symbol after the price
   deliveryFee: 10, // dostawka hyzmaty / delivery fee, added on top of the cart total
@@ -40,7 +40,7 @@ const CONFIG = {
   // One browser counts once per 24h, so it reads as "how many people".
   counter: {
     enabled: true,
-    name: "turkana-restoran-github-io", // benzersiz olsun / keep unique
+    name: "gul-gulustan-github-io", // benzersiz olsun / keep unique
     key: "visits",
     everyHours: 24, // 0 → her açılışı say / count every page load
   },
