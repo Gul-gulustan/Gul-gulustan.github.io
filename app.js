@@ -20,7 +20,7 @@ const CONFIG = {
   brand: "Gül Gülistan", // üst barda görünen isim / name in the header
   currency: "m", // para birimi / currency symbol
   currencyAfter: true, // simge fiyatın sonunda mı? / symbol after the price
-  deliveryFee: 10, // dostawka hyzmaty / delivery fee, added on top of the cart total
+  deliveryFee: 0, // dostawka hyzmaty / delivery fee, added on top of the cart total
   defaultLanguage: "ru", // ru | tk
   defaultTheme: "light", // dark | light
 
@@ -54,18 +54,18 @@ const BANNERS = [
   {
     image: "1787045401358-44080659-sm.webp",
     title: {
-      ru: "1 sentyabr",
+      ru: "1 сентября",
       tk: "1 sentyabr",
     },
     text: {
-      ru: "Buket hyzmaty bizde",
+      ru: "Букеты к школе у нас",
       tk: "Buket hyzmaty bizde",
     },
   },
   {
     image: "1786659276769-779041703-sm.webp",
     title: {
-      ru: "Masyn Bezeg",
+      ru: "Украшение машин",
       tk: "Masyn Bezeg",
     },
     text: {
@@ -76,11 +76,11 @@ const BANNERS = [
   {
     image: "1786659306517-246082929-sm.webp",
     title: {
-      ru: "14 mikrayon",
+      ru: "14 микрорайон",
       tk: "14 mikrayon",
     },
     text: {
-      ru: "Yerlesyan Yerimiz",
+      ru: "Мы находимся здесь",
       tk: "Yerlesyan Yerimiz",
     },
   },
@@ -91,14 +91,14 @@ const BANNERS = [
       tk: "Gül Gülistan",
     },
     text: {
-      ru: "In owadan guller bizde",
+      ru: "Самые красивые цветы у нас",
       tk: "In owadan guller bizde",
     },
   },
   {
     image: "1786659406178-550231885-sm.webp",
     title: {
-      ru: "Durli gornusdaki bezeg kagyzlary bizde!",
+      ru: "Упаковочная бумага разных видов!",
       tk: "Durli gornusdaki bezeg kagyzlary bizde!",
     },
     text: {
@@ -123,7 +123,7 @@ const T = {
     cart: "Корзина",
     empty: "Корзина пуста",
     emptyHint: "Нажмите на товар — он появится здесь.",
-    delivery: "Dostawka hyzmaty",
+    delivery: "Доставка",
     total: "Итого",
     order: "Заказ",
     sendOrder: "Заказать по СМС",
@@ -208,14 +208,14 @@ const MENU = [
     id: "c2471",
     name: {
       tk: "Buket mekdep harytlary",
-      ru: "Buket",
+      ru: "Школьные букеты",
     },
     items: [
       {
         id: "p12521",
         name: {
           tk: "Täze haryt",
-          ru: "Täze haryt",
+          ru: "Новый товар",
         },
         price: 0,
         image: "1787045356741-613982406-sm.webp",
@@ -224,7 +224,7 @@ const MENU = [
         id: "p12522",
         name: {
           tk: "Okuw buket 1",
-          ru: "Täze haryt",
+          ru: "Школьный букет 1",
         },
         price: 100,
         image: "1787045361506-194424953-sm.webp",
@@ -233,7 +233,7 @@ const MENU = [
         id: "p12523",
         name: {
           tk: "Okuw buket 2",
-          ru: "Täze haryt",
+          ru: "Школьный букет 2",
         },
         price: 150,
         image: "1787045365199-22092051-sm.webp",
@@ -242,7 +242,7 @@ const MENU = [
         id: "p12524",
         name: {
           tk: "Okuw buket 3",
-          ru: "Täze haryt",
+          ru: "Школьный букет 3",
         },
         price: 150,
         image: "1787045370040-594166164-sm.webp",
@@ -251,7 +251,7 @@ const MENU = [
         id: "p12525",
         name: {
           tk: "Okuw buket 4",
-          ru: "Täze haryt",
+          ru: "Школьный букет 4",
         },
         price: 100,
         image: "1787045376194-206294722-sm.webp",
@@ -260,7 +260,7 @@ const MENU = [
         id: "p12526",
         name: {
           tk: "Okuw buket 5",
-          ru: "Täze haryt",
+          ru: "Школьный букет 5",
         },
         price: 500,
         image: "1787045380767-874142320-sm.webp",
@@ -271,61 +271,61 @@ const MENU = [
     id: "c2241",
     name: {
       tk: "Gelin gül",
-      ru: "Buket",
+      ru: "Свадебные букеты",
     },
     items: [
       {
         id: "p11337",
         name: {
           tk: "Gelin gül 1",
-          ru: "gul 2",
+          ru: "Свадебный букет 1",
         },
-        price: 0,
+        price: 250,
         image: "1786648824483-821274881-sm.webp",
       },
       {
         id: "p11338",
         name: {
           tk: "Gelin gül 2",
-          ru: "gul 3",
+          ru: "Свадебный букет 2",
         },
-        price: 0,
+        price: 250,
         image: "1786648842226-543544030-sm.webp",
       },
       {
         id: "p11351",
         name: {
           tk: "Gelin gül 3",
-          ru: "gul 15",
+          ru: "Свадебный букет 3",
         },
-        price: 0,
+        price: 500,
         image: "1786649477962-563087972-sm.webp",
       },
       {
         id: "p11352",
         name: {
           tk: "Gelin gül 4",
-          ru: "gul 17",
+          ru: "Свадебный букет 4",
         },
-        price: 0,
+        price: 200,
         image: "1786649533074-2149237-sm.webp",
       },
       {
         id: "p11353",
         name: {
           tk: "Gelin gül 5",
-          ru: "gul 18",
+          ru: "Свадебный букет 5",
         },
-        price: 0,
+        price: 500,
         image: "1786649569154-597465853-sm.webp",
       },
       {
         id: "p11373",
         name: {
-          tk: "Gelin gül6",
-          ru: "gul 38",
+          tk: "Gelin gül 6",
+          ru: "Свадебный букет 6",
         },
-        price: 0,
+        price: 600,
         image: "1786650414202-916511479-sm.webp",
       },
     ],
@@ -334,437 +334,437 @@ const MENU = [
     id: "c2237",
     name: {
       tk: "Guller",
-      ru: "Guller",
+      ru: "Цветы",
     },
     items: [
       {
         id: "p11339",
         name: {
           tk: "Gül 1",
-          ru: "Täze haryt",
+          ru: "Цветок 1",
         },
-        price: 0,
+        price: 900,
         image: "1786648963289-11097523-sm.webp",
       },
       {
         id: "p11342",
         name: {
           tk: "Gül 2",
-          ru: "gul 7",
+          ru: "Цветок 2",
         },
-        price: 0,
+        price: 1350,
         image: "1786649152398-339765595-sm.webp",
       },
       {
         id: "p11347",
         name: {
           tk: "Gül 3",
-          ru: "gul 12",
+          ru: "Цветок 3",
         },
-        price: 0,
+        price: 350,
         image: "1786649316784-540667862-sm.webp",
       },
       {
         id: "p11349",
         name: {
           tk: "Gül 4",
-          ru: "gul 13",
+          ru: "Цветок 4",
         },
-        price: 0,
+        price: 400,
         image: "1786649358699-517207707-sm.webp",
       },
       {
         id: "p11350",
         name: {
           tk: "Gül 5",
-          ru: "gul 14",
+          ru: "Цветок 5",
         },
-        price: 0,
+        price: 500,
         image: "1786649394326-596365692-sm.webp",
       },
       {
         id: "p11354",
         name: {
           tk: "Gül 6",
-          ru: "gul 19",
+          ru: "Цветок 6",
         },
-        price: 0,
+        price: 150,
         image: "1786649605048-107151811-sm.webp",
       },
       {
         id: "p11355",
         name: {
           tk: "Gül 7",
-          ru: "gul 20",
+          ru: "Цветок 7",
         },
-        price: 0,
+        price: 300,
         image: "1786649649535-448601730-sm.webp",
       },
       {
         id: "p11358",
         name: {
           tk: "Gül 8",
-          ru: "gul 23",
+          ru: "Цветок 8",
         },
-        price: 0,
+        price: 450,
         image: "1786649767190-70076846-sm.webp",
       },
       {
         id: "p11359",
         name: {
           tk: "Gül 9",
-          ru: "gul 24",
+          ru: "Цветок 9",
         },
-        price: 0,
+        price: 1200,
         image: "1786649800555-623125253-sm.webp",
       },
       {
         id: "p11360",
         name: {
           tk: "Gül 10",
-          ru: "gul 25",
+          ru: "Цветок 10",
         },
-        price: 0,
+        price: 400,
         image: "1786649829779-317901405-sm.webp",
       },
       {
         id: "p11361",
         name: {
           tk: "Gül 11",
-          ru: "gul 26",
+          ru: "Цветок 11",
         },
-        price: 0,
+        price: 600,
         image: "1786649854503-184312033-sm.webp",
       },
       {
         id: "p11362",
         name: {
           tk: "Gül 12",
-          ru: "gul 27",
+          ru: "Цветок 12",
         },
-        price: 0,
+        price: 450,
         image: "1786649925539-763277604-sm.webp",
       },
       {
         id: "p11363",
         name: {
           tk: "Gül 13",
-          ru: "gul 28",
+          ru: "Цветок 13",
         },
-        price: 0,
+        price: 1000,
         image: "1786650027969-694246142-sm.webp",
       },
       {
         id: "p11364",
         name: {
           tk: "Gül 14",
-          ru: "gul 29",
+          ru: "Цветок 14",
         },
-        price: 0,
+        price: 750,
         image: "1786650075050-121002592-sm.webp",
       },
       {
         id: "p11365",
         name: {
           tk: "Gül 15",
-          ru: "gul 30",
+          ru: "Цветок 15",
         },
-        price: 0,
+        price: 800,
         image: "1786650089244-378385639-sm.webp",
       },
       {
         id: "p11366",
         name: {
           tk: "Gül 16",
-          ru: "gul 31",
+          ru: "Цветок 16",
         },
-        price: 0,
+        price: 400,
         image: "1786650104998-802030852-sm.webp",
       },
       {
         id: "p11367",
         name: {
           tk: "Gül 17",
-          ru: "gul 32",
+          ru: "Цветок 17",
         },
-        price: 0,
+        price: 1000,
         image: "1786650172283-772005156-sm.webp",
       },
       {
         id: "p11368",
         name: {
           tk: "Gül 18",
-          ru: "gul 34",
+          ru: "Цветок 18",
         },
-        price: 0,
+        price: 300,
         image: "1786650285358-521388530-sm.webp",
       },
       {
         id: "p11369",
         name: {
           tk: "Gül 19",
-          ru: "gul 34",
+          ru: "Цветок 19",
         },
-        price: 0,
+        price: 750,
         image: "1786650300645-216118680-sm.webp",
       },
       {
         id: "p11370",
         name: {
           tk: "Gül 20",
-          ru: "gul 35",
+          ru: "Цветок 20",
         },
-        price: 0,
+        price: 400,
         image: "1786650326560-911525305-sm.webp",
       },
       {
         id: "p11371",
         name: {
           tk: "Gül 21",
-          ru: "gul 36",
+          ru: "Цветок 21",
         },
-        price: 0,
+        price: 350,
         image: "1786650361451-594240118-sm.webp",
       },
       {
         id: "p11372",
         name: {
           tk: "Gül 22",
-          ru: "gul 37",
+          ru: "Цветок 22",
         },
-        price: 0,
+        price: 400,
         image: "1786650393913-985698315-sm.webp",
       },
       {
         id: "p11374",
         name: {
           tk: "Gül 23",
-          ru: "Täze haryt",
+          ru: "Цветок 23",
         },
-        price: 0,
+        price: 550,
         image: "1786650454440-380331078-sm.webp",
       },
       {
         id: "p11376",
         name: {
           tk: "Gül 24",
-          ru: "gul 41",
+          ru: "Цветок 24",
         },
-        price: 0,
+        price: 150,
         image: "1786650530608-997211749-sm.webp",
       },
       {
         id: "p11377",
         name: {
           tk: "Gül 25",
-          ru: "gul 42",
+          ru: "Цветок 25",
         },
-        price: 0,
+        price: 500,
         image: "1786650552217-328664991-sm.webp",
       },
       {
         id: "p11378",
         name: {
           tk: "Gül 26",
-          ru: "gul 42",
+          ru: "Цветок 26",
         },
-        price: 0,
+        price: 350,
         image: "1786650573544-18163286-sm.webp",
       },
       {
         id: "p11379",
         name: {
           tk: "Gül 27",
-          ru: "gul 43",
+          ru: "Цветок 27",
         },
-        price: 0,
+        price: 250,
         image: "1786650622533-229909035-sm.webp",
       },
       {
         id: "p11380",
         name: {
           tk: "Gül 28",
-          ru: "gul 44",
+          ru: "Цветок 28",
         },
-        price: 0,
+        price: 250,
         image: "1786650642921-211332510-sm.webp",
       },
       {
         id: "p11381",
         name: {
           tk: "Gül 29",
-          ru: "gul 44",
+          ru: "Цветок 29",
         },
-        price: 0,
+        price: 600,
         image: "1786650669988-610480323-sm.webp",
       },
       {
         id: "p11384",
         name: {
           tk: "Gül 30",
-          ru: "gul 47",
+          ru: "Цветок 30",
         },
-        price: 0,
+        price: 800,
         image: "1786650749176-116745163-sm.webp",
       },
       {
         id: "p11385",
         name: {
           tk: "Gül 31",
-          ru: "gul 49",
+          ru: "Цветок 31",
         },
-        price: 0,
+        price: 350,
         image: "1786650780198-877041497-sm.webp",
       },
       {
         id: "p11386",
         name: {
           tk: "Gül 32",
-          ru: "gul 49",
+          ru: "Цветок 32",
         },
-        price: 0,
+        price: 350,
         image: "1786650815135-343002936-sm.webp",
       },
       {
         id: "p11387",
         name: {
           tk: "Gül 33",
-          ru: "gul 60",
+          ru: "Цветок 33",
         },
-        price: 0,
+        price: 250,
         image: "1786650907356-797059664-sm.webp",
       },
       {
         id: "p11388",
         name: {
           tk: "Gül 34",
-          ru: "gul 52",
+          ru: "Цветок 34",
         },
-        price: 0,
+        price: 350,
         image: "1786650941049-23552337-sm.webp",
       },
       {
         id: "p11389",
         name: {
           tk: "Gül 35",
-          ru: "gul 52",
+          ru: "Цветок 35",
         },
-        price: 0,
+        price: 500,
         image: "1786650968876-711575804-sm.webp",
       },
       {
         id: "p11391",
         name: {
           tk: "Gül 36",
-          ru: "gul 55",
+          ru: "Цветок 36",
         },
-        price: 0,
+        price: 500,
         image: "1786651020028-329736903-sm.webp",
       },
       {
         id: "p11393",
         name: {
           tk: "Gül 37",
-          ru: "gul 57",
+          ru: "Цветок 37",
         },
-        price: 0,
+        price: 300,
         image: "1786651057640-339990611-sm.webp",
       },
       {
         id: "p11394",
         name: {
           tk: "Gül 38",
-          ru: "gul 57",
+          ru: "Цветок 38",
         },
-        price: 0,
+        price: 700,
         image: "1786651095006-877119869-sm.webp",
       },
       {
         id: "p11397",
         name: {
           tk: "Gül 39",
-          ru: "gul 61",
+          ru: "Цветок 39",
         },
-        price: 0,
+        price: 250,
         image: "1786651174877-999354342-sm.webp",
       },
       {
         id: "p11398",
         name: {
           tk: "Gül 40",
-          ru: "gul 62",
+          ru: "Цветок 40",
         },
-        price: 0,
+        price: 350,
         image: "1786651205556-468970883-sm.webp",
       },
       {
         id: "p11399",
         name: {
           tk: "Gül 41",
-          ru: "gul 63",
+          ru: "Цветок 41",
         },
-        price: 0,
+        price: 500,
         image: "1786651222037-277177476-sm.webp",
       },
       {
         id: "p11402",
         name: {
           tk: "Gül 42",
-          ru: "gul 66",
+          ru: "Цветок 42",
         },
-        price: 0,
+        price: 600,
         image: "1786651367857-727933429-sm.webp",
       },
       {
         id: "p11414",
         name: {
           tk: "Gül 43",
-          ru: "gul 76",
+          ru: "Цветок 43",
         },
-        price: 0,
+        price: 150,
         image: "1786652023775-278525544-sm.webp",
       },
       {
         id: "p11415",
         name: {
           tk: "Gül 44",
-          ru: "gul 79",
+          ru: "Цветок 44",
         },
-        price: 0,
+        price: 300,
         image: "1786652290430-786787843-sm.webp",
       },
       {
         id: "p11416",
         name: {
           tk: "Gül 45",
-          ru: "gul 80",
+          ru: "Цветок 45",
         },
-        price: 0,
+        price: 300,
         image: "1786652316810-407728332-sm.webp",
       },
       {
         id: "p11417",
         name: {
           tk: "Gül 46",
-          ru: "gul 81",
+          ru: "Цветок 46",
         },
-        price: 0,
+        price: 300,
         image: "1786652355477-56904026-sm.webp",
       },
       {
         id: "p11419",
         name: {
           tk: "Gül 47",
-          ru: "gul 83",
+          ru: "Цветок 47",
         },
-        price: 0,
+        price: 250,
         image: "1786652457865-547584299-sm.webp",
       },
       {
         id: "p11420",
         name: {
           tk: "Gül 48",
-          ru: "gul 84",
+          ru: "Цветок 48",
         },
         price: 0,
         image: "1786652534604-780397317-sm.webp",
@@ -773,7 +773,7 @@ const MENU = [
         id: "p11422",
         name: {
           tk: "Gül 49",
-          ru: "gul 86",
+          ru: "Цветок 49",
         },
         price: 0,
         image: "1786652589966-433597661-sm.webp",
@@ -782,7 +782,7 @@ const MENU = [
         id: "p11424",
         name: {
           tk: "Gül 50",
-          ru: "gul 87",
+          ru: "Цветок 50",
         },
         price: 0,
         image: "1786652695673-785397237-sm.webp",
@@ -793,14 +793,14 @@ const MENU = [
     id: "c2240",
     name: {
       tk: "Kompozisiya",
-      ru: "Gul miska mix",
+      ru: "Композиции",
     },
     items: [
       {
         id: "p11336",
         name: {
           tk: "Kompozisiya 1",
-          ru: "gul 1",
+          ru: "Композиция 1",
         },
         price: 0,
         image: "1786648801782-102088268-sm.webp",
@@ -809,7 +809,7 @@ const MENU = [
         id: "p11340",
         name: {
           tk: "Kompozisiya 2",
-          ru: "Täze haryt",
+          ru: "Композиция 2",
         },
         price: 1000,
         image: "1786649074399-628441790-sm.webp",
@@ -818,25 +818,25 @@ const MENU = [
         id: "p11341",
         name: {
           tk: "Kompozisiya 3",
-          ru: "gul 6",
+          ru: "Композиция 3",
         },
-        price: 0,
+        price: 300,
         image: "1786649121382-77977362-sm.webp",
       },
       {
         id: "p11343",
         name: {
           tk: "Kompozisiya 4",
-          ru: "gul 8",
+          ru: "Композиция 4",
         },
-        price: 0,
+        price: 750,
         image: "1786649186173-937650273-sm.webp",
       },
       {
         id: "p11346",
         name: {
           tk: "Kompozisiya 5",
-          ru: "gul 11",
+          ru: "Композиция 5",
         },
         price: 249.88,
         image: "1786649285142-381643818-sm.webp",
@@ -845,115 +845,115 @@ const MENU = [
         id: "p11348",
         name: {
           tk: "Kompozisiya 6",
-          ru: "gul 13",
+          ru: "Композиция 6",
         },
-        price: 0,
+        price: 1200,
         image: "1786649335061-911359408-sm.webp",
       },
       {
         id: "p11356",
         name: {
           tk: "Kompozisiya 7",
-          ru: "gul 21",
+          ru: "Композиция 7",
         },
-        price: 0,
+        price: 350,
         image: "1786649684170-710595326-sm.webp",
       },
       {
         id: "p11357",
         name: {
           tk: "Kompozisiya 8",
-          ru: "gul 22",
+          ru: "Композиция 8",
         },
-        price: 0,
+        price: 1000,
         image: "1786649713513-965823024-sm.webp",
       },
       {
         id: "p11375",
         name: {
           tk: "Kompozisiya 9",
-          ru: "gul 40",
+          ru: "Композиция 9",
         },
-        price: 0,
+        price: 650,
         image: "1786650490971-899050392-sm.webp",
       },
       {
         id: "p11382",
         name: {
           tk: "Kompozisiya 10",
-          ru: "gul 46",
+          ru: "Композиция 10",
         },
-        price: 0,
+        price: 300,
         image: "1786650712784-33731027-sm.webp",
       },
       {
         id: "p11383",
         name: {
           tk: "Kompozisiya 11",
-          ru: "gul 47",
+          ru: "Композиция 11",
         },
-        price: 0,
+        price: 200,
         image: "1786650730093-433882236-sm.webp",
       },
       {
         id: "p11390",
         name: {
           tk: "Kompozisiya 12",
-          ru: "gul 53",
+          ru: "Композиция 12",
         },
-        price: 0,
+        price: 300,
         image: "1786650996223-179220735-sm.webp",
       },
       {
         id: "p11392",
         name: {
           tk: "Kompozisiya 13",
-          ru: "gul 56",
+          ru: "Композиция 13",
         },
-        price: 0,
+        price: 1000,
         image: "1786651040135-708072744-sm.webp",
       },
       {
         id: "p11395",
         name: {
           tk: "Kompozisiya 14",
-          ru: "gul 59",
+          ru: "Композиция 14",
         },
-        price: 0,
+        price: 2500,
         image: "1786651132556-335599058-sm.webp",
       },
       {
         id: "p11396",
         name: {
           tk: "Kompozisiya 15",
-          ru: "gul 60",
+          ru: "Композиция 15",
         },
-        price: 0,
+        price: 1050,
         image: "1786651157508-631540740-sm.webp",
       },
       {
         id: "p11400",
         name: {
           tk: "Kompozisiya 16",
-          ru: "gul 64",
+          ru: "Композиция 16",
         },
-        price: 0,
+        price: 400,
         image: "1786651310842-935371773-sm.webp",
       },
       {
         id: "p11401",
         name: {
           tk: "Kompozisiya 17",
-          ru: "gul 65",
+          ru: "Композиция 17",
         },
-        price: 0,
+        price: 600,
         image: "1786651345699-980214376-sm.webp",
       },
       {
         id: "p11418",
         name: {
           tk: "Kompozisiya 18",
-          ru: "gul 82",
+          ru: "Композиция 18",
         },
         price: 0,
         image: "1786652389631-621886363-sm.webp",
@@ -962,7 +962,7 @@ const MENU = [
         id: "p11421",
         name: {
           tk: "Kompozisiya 19",
-          ru: "gul 85",
+          ru: "Композиция 19",
         },
         price: 0,
         image: "1786652561374-908985608-sm.webp",
@@ -971,7 +971,7 @@ const MENU = [
         id: "p11423",
         name: {
           tk: "Kompozisiya 20",
-          ru: "gul 86",
+          ru: "Композиция 20",
         },
         price: 0,
         image: "1786652622338-348532014-sm.webp",
@@ -982,14 +982,14 @@ const MENU = [
     id: "c2239",
     name: {
       tk: "Miska",
-      ru: "Miska",
+      ru: "Миски",
     },
     items: [
       {
         id: "p12550",
         name: {
           tk: "Miska 1",
-          ru: "Miska 1",
+          ru: "Миска 1",
         },
         price: 0,
         image: "1787047650259-843373088-sm.webp",
@@ -998,7 +998,7 @@ const MENU = [
         id: "p12551",
         name: {
           tk: "Miska 2",
-          ru: "Miska 2",
+          ru: "Миска 2",
         },
         price: 0,
         image: "1787047653431-232505125-sm.webp",
@@ -1007,7 +1007,7 @@ const MENU = [
         id: "p12552",
         name: {
           tk: "Miska 3",
-          ru: "Miska 3",
+          ru: "Миска 3",
         },
         price: 0,
         image: "1787047656422-916495313-sm.webp",
@@ -1016,7 +1016,7 @@ const MENU = [
         id: "p12553",
         name: {
           tk: "Miska 4",
-          ru: "Miska 4",
+          ru: "Миска 4",
         },
         price: 0,
         image: "1787047662358-558738604-sm.webp",
@@ -1025,7 +1025,7 @@ const MENU = [
         id: "p12554",
         name: {
           tk: "Miska 5",
-          ru: "Miska 5",
+          ru: "Миска 5",
         },
         price: 0,
         image: "1787047667070-101660194-sm.webp",
@@ -1034,7 +1034,7 @@ const MENU = [
         id: "p12555",
         name: {
           tk: "Miska 6",
-          ru: "Miska 6",
+          ru: "Миска 6",
         },
         price: 0,
         image: "1787047670260-539612769-sm.webp",
@@ -1043,7 +1043,7 @@ const MENU = [
         id: "p12556",
         name: {
           tk: "Miska 7",
-          ru: "Miska 7",
+          ru: "Миска 7",
         },
         price: 0,
         image: "1787047673532-440662741-sm.webp",
@@ -1052,7 +1052,7 @@ const MENU = [
         id: "p12557",
         name: {
           tk: "Miska 8",
-          ru: "Miska 8",
+          ru: "Миска 8",
         },
         price: 0,
         image: "1787047677279-445157477-sm.webp",
@@ -1061,7 +1061,7 @@ const MENU = [
         id: "p12558",
         name: {
           tk: "Miska 9",
-          ru: "Miska 9",
+          ru: "Миска 9",
         },
         price: 0,
         image: "1787047690628-250422268-sm.webp",
@@ -1070,7 +1070,7 @@ const MENU = [
         id: "p12559",
         name: {
           tk: "Miska 10",
-          ru: "Miska 10",
+          ru: "Миска 10",
         },
         price: 0,
         image: "1787047694027-600220287-sm.webp",
@@ -1081,14 +1081,14 @@ const MENU = [
     id: "c2238",
     name: {
       tk: "Suwenir",
-      ru: "Suwenir",
+      ru: "Сувениры",
     },
     items: [
       {
         id: "p12540",
         name: {
           tk: "Suwenir 1",
-          ru: "Suwenir 1",
+          ru: "Сувенир 1",
         },
         price: 0,
         image: "1787047530093-442657565-sm.webp",
@@ -1097,7 +1097,7 @@ const MENU = [
         id: "p12541",
         name: {
           tk: "Suwenir 2",
-          ru: "Suwenir 2",
+          ru: "Сувенир 2",
         },
         price: 0,
         image: "1787047534965-461308274-sm.webp",
@@ -1106,7 +1106,7 @@ const MENU = [
         id: "p12542",
         name: {
           tk: "Suwenir 3",
-          ru: "Suwenir 3",
+          ru: "Сувенир 3",
         },
         price: 150,
         image: "1787047538017-760805531-sm.webp",
@@ -1115,7 +1115,7 @@ const MENU = [
         id: "p12543",
         name: {
           tk: "Suwenir 4",
-          ru: "Suwenir 4",
+          ru: "Сувенир 4",
         },
         price: 0,
         image: "1787047541390-921926483-sm.webp",
@@ -1124,7 +1124,7 @@ const MENU = [
         id: "p12544",
         name: {
           tk: "Suwenir 5",
-          ru: "Suwenir 5",
+          ru: "Сувенир 5",
         },
         price: 250,
         image: "1787047545894-112842566-sm.webp",
@@ -1133,7 +1133,7 @@ const MENU = [
         id: "p12545",
         name: {
           tk: "Suwenir 6",
-          ru: "Suwenir 6",
+          ru: "Сувенир 6",
         },
         price: 230,
         image: "1787047549319-568261191-sm.webp",
@@ -1142,7 +1142,7 @@ const MENU = [
         id: "p12546",
         name: {
           tk: "Suwenir 7",
-          ru: "Suwenir 7",
+          ru: "Сувенир 7",
         },
         price: 230,
         image: "1787047552994-571617262-sm.webp",
@@ -1151,7 +1151,7 @@ const MENU = [
         id: "p12547",
         name: {
           tk: "Suwenir 8",
-          ru: "Suwenir 8",
+          ru: "Сувенир 8",
         },
         price: 120,
         image: "1787047557284-584232057-sm.webp",
@@ -1160,7 +1160,7 @@ const MENU = [
         id: "p12548",
         name: {
           tk: "Suwenir 9",
-          ru: "Suwenir 9",
+          ru: "Сувенир 9",
         },
         price: 120,
         image: "1787047564826-347616227-sm.webp",
@@ -1169,7 +1169,7 @@ const MENU = [
         id: "p12549",
         name: {
           tk: "Suwenir 10",
-          ru: "Suwenir 10",
+          ru: "Сувенир 10",
         },
         price: 250,
         image: "1787047569183-450091708-sm.webp",
@@ -1178,7 +1178,7 @@ const MENU = [
         id: "p12560",
         name: {
           tk: "Suwenir 11",
-          ru: "Suwenir 11",
+          ru: "Сувенир 11",
         },
         price: 100,
         image: "1787047723393-844609439-sm.webp",
@@ -1187,7 +1187,7 @@ const MENU = [
         id: "p12561",
         name: {
           tk: "Suwenir 12",
-          ru: "Suwenir 12",
+          ru: "Сувенир 12",
         },
         price: 190,
         image: "1787047726880-128581508-sm.webp",
@@ -1196,7 +1196,7 @@ const MENU = [
         id: "p12562",
         name: {
           tk: "Suwenir 13",
-          ru: "Suwenir 13",
+          ru: "Сувенир 13",
         },
         price: 180,
         image: "1787047729859-175669292-sm.webp",
@@ -1205,7 +1205,7 @@ const MENU = [
         id: "p12563",
         name: {
           tk: "Suwenir 14",
-          ru: "Suwenir 14",
+          ru: "Сувенир 14",
         },
         price: 90,
         image: "1787047732873-540021001-sm.webp",
@@ -1214,7 +1214,7 @@ const MENU = [
         id: "p12565",
         name: {
           tk: "Suwenir 16",
-          ru: "Suwenir 16",
+          ru: "Сувенир 16",
         },
         price: 1200,
         image: "1787047748192-77549226-sm.webp",
@@ -1223,7 +1223,7 @@ const MENU = [
         id: "p12566",
         name: {
           tk: "Suwenir 17",
-          ru: "Suwenir 17",
+          ru: "Сувенир 17",
         },
         price: 110,
         image: "1787047751412-330533065-sm.webp",
@@ -1232,7 +1232,7 @@ const MENU = [
         id: "p12567",
         name: {
           tk: "Suwenir 18",
-          ru: "Suwenir 18",
+          ru: "Сувенир 18",
         },
         price: 120,
         image: "1787047768002-717684452-sm.webp",
@@ -1241,7 +1241,7 @@ const MENU = [
         id: "p12568",
         name: {
           tk: "Suwenir 19",
-          ru: "Suwenir 19",
+          ru: "Сувенир 19",
         },
         price: 190,
         image: "1787047770739-510752544-sm.webp",
@@ -1250,7 +1250,7 @@ const MENU = [
         id: "p12569",
         name: {
           tk: "Suwenir 20",
-          ru: "Suwenir 20",
+          ru: "Сувенир 20",
         },
         price: 350,
         image: "1787047773926-603410638-sm.webp",
@@ -1261,14 +1261,14 @@ const MENU = [
     id: "c2472",
     name: {
       tk: "Karopkalar",
-      ru: "Karopkalar",
+      ru: "Коробки",
     },
     items: [
       {
         id: "p12530",
         name: {
           tk: "Karopka 1",
-          ru: "Karopka 1",
+          ru: "Коробка 1",
         },
         price: 600,
         image: "1787047174197-631418762-sm.webp",
@@ -1277,7 +1277,7 @@ const MENU = [
         id: "p12531",
         name: {
           tk: "Karopka 2",
-          ru: "Karopka 2",
+          ru: "Коробка 2",
         },
         price: 450,
         image: "1787047208615-216243103-sm.webp",
@@ -1286,7 +1286,7 @@ const MENU = [
         id: "p12532",
         name: {
           tk: "Karopka 3",
-          ru: "Karopka 3",
+          ru: "Коробка 3",
         },
         price: 250,
         image: "1787047234390-205873236-sm.webp",
@@ -1295,7 +1295,7 @@ const MENU = [
         id: "p12533",
         name: {
           tk: "Karopka 4",
-          ru: "Karopka 4",
+          ru: "Коробка 4",
         },
         price: 230,
         image: "1787047252495-720721452-sm.webp",
@@ -1304,7 +1304,7 @@ const MENU = [
         id: "p12534",
         name: {
           tk: "Karopka 5",
-          ru: "Karopka 5",
+          ru: "Коробка 5",
         },
         price: 200,
         image: "1787047275175-175368938-sm.webp",
@@ -1313,7 +1313,7 @@ const MENU = [
         id: "p12535",
         name: {
           tk: "Karopka 6",
-          ru: "Karopka 6",
+          ru: "Коробка 6",
         },
         price: 140,
         image: "1787047289418-587340071-sm.webp",
@@ -1322,7 +1322,7 @@ const MENU = [
         id: "p12536",
         name: {
           tk: "Karopka 7",
-          ru: "Karopka 7",
+          ru: "Коробка 7",
         },
         price: 300,
         image: "1787047317262-603115194-sm.webp",
@@ -1331,7 +1331,7 @@ const MENU = [
         id: "p12537",
         name: {
           tk: "Karopka 8",
-          ru: "Karopka 8",
+          ru: "Коробка 8",
         },
         price: 250,
         image: "1787047337983-66149595-sm.webp",
@@ -1340,7 +1340,7 @@ const MENU = [
         id: "p12538",
         name: {
           tk: "Karopka 9",
-          ru: "Karopka 9",
+          ru: "Коробка 9",
         },
         price: 200,
         image: "1787047352486-705946432-sm.webp",

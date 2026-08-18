@@ -501,10 +501,19 @@
          geciktiriyordu. Yukarıdaki açılış ekranı zaten her şeyi örtüyor.
          The main stylesheet loads here, not in <head>: up there it blocked
          first paint. The boot screen above already covers the page. -->
-    <link rel="stylesheet" href="styles.css" />
+    <!-- ?v=3 — önbellek kırıcı / cache buster.
+         Tarayıcı styles.css ve app.js dosyalarını 10 dakika saklar, bu yüzden
+         push'tan sonra müşteri eski fiyatları görebiliyordu. Adresin sonundaki
+         ?v=... değişince tarayıcı onu BAŞKA bir dosya sayar ve yeniden indirir.
+         HER YAYINDAN SONRA iki satırdaki sayıyı da bir artır: v=3 → v=4.
+         The browser keeps styles.css and app.js for 10 minutes, so after a push
+         customers could still see the old prices. Changing ?v=... makes the
+         browser treat it as a DIFFERENT file and fetch it again. Bump the
+         number on BOTH lines after every publish: v=3 → v=4. -->
+    <link rel="stylesheet" href="styles.css?v=3" />
 
     <!-- Sayfa çizildikten sonra çalışır, o yüzden defer gerekmez.
          Runs after the page is parsed, so it needs no defer. -->
-    <script src="app.js"></script>
+    <script src="app.js?v=3"></script>
   </body>
 </html>

@@ -151,3 +151,127 @@ Yerelde denemek için (resimlerin yüklenmesi için sunucu şart değil, ama ön
 ```bash
 python3 -m http.server 8080     # → http://localhost:8080
 ```
+
+## 7. Önbellek: "push ettim ama site değişmedi" / Cache busting
+
+Push ettikten sonra sitede eski ürünleri görüyorsan **sunucu değil, tarayıcı
+suçludur**. GitHub Pages her dosyayı `cache-control: max-age=600` ile gönderir:
+tarayıcı `app.js` dosyasını **10 dakika** kendi diskinde saklar ve o süre
+boyunca sunucuya hiç sormaz.
+
+After a push, seeing the old products is the **browser's** doing, not the
+server's. GitHub Pages serves every file with `cache-control: max-age=600`, so
+the browser keeps `app.js` on disk for **10 minutes** without asking again.
+
+**Çözüm / the fix** — `index.html`'in en altındaki iki satırda adresin sonunda
+bir sürüm numarası var:
+
+```html
+<link rel="stylesheet" href="styles.css?v=2" />
+<script src="app.js?v=2"></script>
+```
+
+Tarayıcı için `app.js?v=2` ile `app.js?v=3` **iki ayrı dosyadır** — numara
+değişince eski kopyayı atıp yenisini indirmek zorunda kalır.
+`?v=...` kısmı sunucuda hiçbir şey değiştirmez, dosyanın adı `app.js` olarak
+kalır; sadece tarayıcıya "bu yeni" demenin yoludur.
+
+To the browser, `app.js?v=2` and `app.js?v=3` are **two different files**, so a
+new number forces a fresh download. The `?v=...` part changes nothing on the
+server — the file is still plain `app.js`.
+
+> **Kural / the rule:** ürün, fiyat veya banner değiştirdiğin **her seferde**
+> bu iki satırdaki sayıyı bir artır (`v=2` → `v=3`), sonra push et.
+> Bump the number on both lines every time you change products, prices or
+> banners, then push.
+
+Küçük not: `index.html`'in kendisi de 10 dakika saklanır. Yani en kötü ihtimalle
+yeni içerik 10 dakika gecikir; ondan sonra herkes doğru sürümü görür — tek tek
+kimseye "önbelleği temizle" demen gerekmez. Kendin hemen görmek istersen:
+
+Small caveat: `index.html` itself is cached for 10 minutes too, so in the worst
+case the update is 10 minutes late — after that everyone gets it, with nobody
+having to clear anything. To see it immediately yourself:
+
+- Mac masaüstü: `Cmd+Shift+R` (Chrome/Edge) · `Cmd+Option+R` (Safari)
+- Gizli / incognito pencerede aç
+- Telefonda ana ekrana eklediysen: kısayolu sil, siteyi aç, tekrar ekle
+
+## 8. Değişiklik günlüğü / Changelog
+
+### 2026-08-18 — rusça adlar / Russian names
+
+Sitede sağ üstten **Русский** seçilince ürün adları hâlâ türkmence latin
+yazıyordu (`Gül 12`, `Karopka 3`). Artık her ürünün `ru` alanı gerçekten
+rusçadır. Panelden gelen veride ikisi de aynı metindi, çeviri elle yapıldı.
+
+Picking **Русский** used to still show Latin Turkmen product names; every `ru`
+field now holds real Russian. The export had the same text in both languages,
+so the translation was done by hand.
+
+| tk | ru |
+| --- | --- |
+| Guller | Цветы |
+| Gelin gül | Свадебные букеты |
+| Buket mekdep harytlary | Школьные букеты |
+| Kompozisiya | Композиции |
+| Miska | Миски |
+| Suwenir | Сувениры |
+| Karopkalar | Коробки |
+| `Gül N` | `Цветок N` |
+| `Okuw buket N` | `Школьный букет N` |
+| `Täze haryt` | `Новый товар` |
+
+- 7 kategori + **120 ürünün tamamı** çevrildi, latin harfli `ru` alanı kalmadı.
+- **Afişlerin rusçası:** *1 сентября · Букеты к школе у нас*, *Украшение машин*,
+  *14 микрорайон · Мы находимся здесь*, *Самые красивые цветы у нас*,
+  *Упаковочная бумага разных видов!* Marka adı `Gül Gülistan` olarak bırakıldı.
+- **`T.ru` içindeki `delivery` alanı** türkmence kalmıştı (`Dostawka hyzmaty`),
+  **`Доставка`** yapıldı. Türkmence tablodaki (`T.tk`) hâli aynen duruyor.
+- `index.html` sürümü `?v=2` → **`?v=3`** (7. bölümdeki kural).
+
+Türkmence (`tk`) adların hiçbiri değişmedi; fiyatlar, resimler, kimlikler
+(`p11336` gibi) ve `CONFIG` aynı. Panelden yeni bir dışa aktarma alırsan bu
+rusça adlar **kaybolur** — ya çeviriyi panele de gir, ya da bu tabloyu
+kullanarak tekrar uygula.
+
+Nothing on the Turkmen side changed; prices, images, ids and `CONFIG` are
+untouched. A fresh export from the panel will **overwrite** these Russian
+names — either enter them in the panel too, or re-apply them from the table.
+
+### 2026-08-18 — panel verisi aktarıldı / admin export imported
+
+Kaynak / source: yönetim panelinden indirilen `gul-gulistan/` klasörü
+(`data/products.json`, `data/categories.json`, `data/banners.json`).
+Bu klasör depoya **girmez**, sadece veriyi taşımak için kullanılır.
+
+- **`app.js` → `MENU` bloğu tamamen yeniden yazıldı.** 113 ürün → **120 ürün**,
+  5 kategori → **7 kategori**. Sıralama paneldeki `sortOrder` ile aynı:
+  Buket mekdep harytlary (6), Gelin gül (6), Guller (50), Kompozisiya (20),
+  Miska (10), Suwenir (19), Karopkalar (9).
+  Kategori kimlikleri `c<panel id>`, ürünler `p<panel id>` olarak korundu —
+  böylece sepet ve panel aynı kimliği kullanır.
+- **Yeni kategori adları** panelden geldiği gibi: `2241` artık tk `Gelin gül` /
+  ru `Buket`, `2240` tk `Kompozisiya` / ru `Gul miska mix`.
+- **`uploads/` klasörüne 47 yeni resim kopyalandı** (`-sm.webp` küçük boy).
+  Her ürünün resmi kontrol edildi, eksik dosya yok.
+- **`BANNERS` listesine bir afiş eklendi**, en başa: *1 sentyabr — Buket
+  hyzmaty bizde* (`1787045401358-44080659-sm.webp`). Eski dört afiş duruyor,
+  toplam 5.
+- **Yazı düzeltmesi:** "Gül Gülüstan" → **"Gül Gülistan"** — sayfa başlığı
+  (`<title>`), alt bilgi, `CONFIG.brand` ve üçüncü afişin yazısı.
+- **`index.html`'e `?v=2` önbellek kırıcı eklendi** (yukarıdaki 7. bölüm).
+- Dokunulmayanlar: logo, parallax görselleri, `styles.css`, telefon numarası,
+  dostawka ücreti ve diğer `CONFIG` alanları.
+
+Dikkat / heads-up: panelden gelen 120 üründen **88 tanesinin fiyatı `0`**.
+Bu veri panelde de böyle — site doğru aktardı. Fiyatlar gerçekten girilecekse
+panelde düzeltip yeni bir dışa aktarma almak gerekir.
+88 of the 120 products come out of the panel with a price of `0`; that is how
+the export is, not a conversion loss. Fix them in the panel and re-export.
+
+
+
+
+
+git add -A && git commit -m "cache busting + readme" && git push
