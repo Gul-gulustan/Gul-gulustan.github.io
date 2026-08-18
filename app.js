@@ -212,15 +212,6 @@ const MENU = [
     },
     items: [
       {
-        id: "p12521",
-        name: {
-          tk: "Täze haryt",
-          ru: "Новый товар",
-        },
-        price: 0,
-        image: "1787045356741-613982406-sm.webp",
-      },
-      {
         id: "p12522",
         name: {
           tk: "Okuw buket 1",
@@ -766,26 +757,8 @@ const MENU = [
           tk: "Gül 48",
           ru: "Цветок 48",
         },
-        price: 0,
+        price: 250,
         image: "1786652534604-780397317-sm.webp",
-      },
-      {
-        id: "p11422",
-        name: {
-          tk: "Gül 49",
-          ru: "Цветок 49",
-        },
-        price: 0,
-        image: "1786652589966-433597661-sm.webp",
-      },
-      {
-        id: "p11424",
-        name: {
-          tk: "Gül 50",
-          ru: "Цветок 50",
-        },
-        price: 0,
-        image: "1786652695673-785397237-sm.webp",
       },
     ],
   },
@@ -955,7 +928,7 @@ const MENU = [
           tk: "Kompozisiya 18",
           ru: "Композиция 18",
         },
-        price: 0,
+        price: 600,
         image: "1786652389631-621886363-sm.webp",
       },
       {
@@ -964,7 +937,7 @@ const MENU = [
           tk: "Kompozisiya 19",
           ru: "Композиция 19",
         },
-        price: 0,
+        price: 450,
         image: "1786652561374-908985608-sm.webp",
       },
       {
@@ -973,7 +946,7 @@ const MENU = [
           tk: "Kompozisiya 20",
           ru: "Композиция 20",
         },
-        price: 0,
+        price: 850,
         image: "1786652622338-348532014-sm.webp",
       },
     ],
@@ -991,7 +964,7 @@ const MENU = [
           tk: "Miska 1",
           ru: "Миска 1",
         },
-        price: 0,
+        price: 200,
         image: "1787047650259-843373088-sm.webp",
       },
       {
@@ -1000,7 +973,7 @@ const MENU = [
           tk: "Miska 2",
           ru: "Миска 2",
         },
-        price: 0,
+        price: 400,
         image: "1787047653431-232505125-sm.webp",
       },
       {
@@ -1009,7 +982,7 @@ const MENU = [
           tk: "Miska 3",
           ru: "Миска 3",
         },
-        price: 0,
+        price: 180,
         image: "1787047656422-916495313-sm.webp",
       },
       {
@@ -1018,7 +991,7 @@ const MENU = [
           tk: "Miska 4",
           ru: "Миска 4",
         },
-        price: 0,
+        price: 150,
         image: "1787047662358-558738604-sm.webp",
       },
       {
@@ -1027,7 +1000,7 @@ const MENU = [
           tk: "Miska 5",
           ru: "Миска 5",
         },
-        price: 0,
+        price: 80,
         image: "1787047667070-101660194-sm.webp",
       },
       {
@@ -1036,7 +1009,7 @@ const MENU = [
           tk: "Miska 6",
           ru: "Миска 6",
         },
-        price: 0,
+        price: 400,
         image: "1787047670260-539612769-sm.webp",
       },
       {
@@ -1045,7 +1018,7 @@ const MENU = [
           tk: "Miska 7",
           ru: "Миска 7",
         },
-        price: 0,
+        price: 150,
         image: "1787047673532-440662741-sm.webp",
       },
       {
@@ -1054,7 +1027,7 @@ const MENU = [
           tk: "Miska 8",
           ru: "Миска 8",
         },
-        price: 0,
+        price: 150,
         image: "1787047677279-445157477-sm.webp",
       },
       {
@@ -1063,7 +1036,7 @@ const MENU = [
           tk: "Miska 9",
           ru: "Миска 9",
         },
-        price: 0,
+        price: 70,
         image: "1787047690628-250422268-sm.webp",
       },
       {
@@ -1072,7 +1045,7 @@ const MENU = [
           tk: "Miska 10",
           ru: "Миска 10",
         },
-        price: 0,
+        price: 160,
         image: "1787047694027-600220287-sm.webp",
       },
     ],
@@ -1090,7 +1063,7 @@ const MENU = [
           tk: "Suwenir 1",
           ru: "Сувенир 1",
         },
-        price: 0,
+        price: 100,
         image: "1787047530093-442657565-sm.webp",
       },
       {
@@ -1099,7 +1072,7 @@ const MENU = [
           tk: "Suwenir 2",
           ru: "Сувенир 2",
         },
-        price: 0,
+        price: 450,
         image: "1787047534965-461308274-sm.webp",
       },
       {
@@ -1117,7 +1090,7 @@ const MENU = [
           tk: "Suwenir 4",
           ru: "Сувенир 4",
         },
-        price: 0,
+        price: 60,
         image: "1787047541390-921926483-sm.webp",
       },
       {

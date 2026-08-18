@@ -48,18 +48,18 @@ Sepetin içinde **Adaty (Обычный)** ve **Sowgat (Подарок)** diye i
 
 **Adaty / Обычный** — çiçeği kendine alırsın:
 
-| Alan | Zorunlu mu? |
-| --- | --- |
-| Ad / Имя | evet |
-| Adres / Адрес | evet |
+| Alan          | Zorunlu mu? |
+| ------------- | ----------- |
+| Ad / Имя      | evet        |
+| Adres / Адрес | evet        |
 
 **Sowgat / Подарок** — çiçek başkasına gider. Adres sorulmaz: dükkân alıcıyı
 arayıp sorar. Sadece iki satır vardır:
 
-| Alan | Zorunlu mu? |
-| --- | --- |
-| Sowgady almaly adamyň nomeri | evet — **+993 ve tam 8 hane** |
-| Gutlag ýazgysy / Текст открытки | hayır, boş kalabilir |
+| Alan                            | Zorunlu mu?                   |
+| ------------------------------- | ----------------------------- |
+| Sowgady almaly adamyň nomeri    | evet — **+993 ve tam 8 hane** |
+| Gutlag ýazgysy / Текст открытки | hayır, boş kalabilir          |
 
 Numara kutusunun solunda `+993` sabit durur, yazılamaz — müşteri sadece 8 hane
 yazar. Yapıştırılan `+993 65 12 34 56` gibi bir metinden ülke kodu ve boşluklar
@@ -209,23 +209,23 @@ Picking **Русский** used to still show Latin Turkmen product names; every
 field now holds real Russian. The export had the same text in both languages,
 so the translation was done by hand.
 
-| tk | ru |
-| --- | --- |
-| Guller | Цветы |
-| Gelin gül | Свадебные букеты |
-| Buket mekdep harytlary | Школьные букеты |
-| Kompozisiya | Композиции |
-| Miska | Миски |
-| Suwenir | Сувениры |
-| Karopkalar | Коробки |
-| `Gül N` | `Цветок N` |
-| `Okuw buket N` | `Школьный букет N` |
-| `Täze haryt` | `Новый товар` |
+| tk                     | ru                 |
+| ---------------------- | ------------------ |
+| Guller                 | Цветы              |
+| Gelin gül              | Свадебные букеты   |
+| Buket mekdep harytlary | Школьные букеты    |
+| Kompozisiya            | Композиции         |
+| Miska                  | Миски              |
+| Suwenir                | Сувениры           |
+| Karopkalar             | Коробки            |
+| `Gül N`                | `Цветок N`         |
+| `Okuw buket N`         | `Школьный букет N` |
+| `Täze haryt`           | `Новый товар`      |
 
 - 7 kategori + **120 ürünün tamamı** çevrildi, latin harfli `ru` alanı kalmadı.
-- **Afişlerin rusçası:** *1 сентября · Букеты к школе у нас*, *Украшение машин*,
-  *14 микрорайон · Мы находимся здесь*, *Самые красивые цветы у нас*,
-  *Упаковочная бумага разных видов!* Marka adı `Gül Gülistan` olarak bırakıldı.
+- **Afişlerin rusçası:** _1 сентября · Букеты к школе у нас_, _Украшение машин_,
+  _14 микрорайон · Мы находимся здесь_, _Самые красивые цветы у нас_,
+  _Упаковочная бумага разных видов!_ Marka adı `Gül Gülistan` olarak bırakıldı.
 - **`T.ru` içindeki `delivery` alanı** türkmence kalmıştı (`Dostawka hyzmaty`),
   **`Доставка`** yapıldı. Türkmence tablodaki (`T.tk`) hâli aynen duruyor.
 - `index.html` sürümü `?v=2` → **`?v=3`** (7. bölümdeki kural).
@@ -255,8 +255,8 @@ Bu klasör depoya **girmez**, sadece veriyi taşımak için kullanılır.
   ru `Buket`, `2240` tk `Kompozisiya` / ru `Gul miska mix`.
 - **`uploads/` klasörüne 47 yeni resim kopyalandı** (`-sm.webp` küçük boy).
   Her ürünün resmi kontrol edildi, eksik dosya yok.
-- **`BANNERS` listesine bir afiş eklendi**, en başa: *1 sentyabr — Buket
-  hyzmaty bizde* (`1787045401358-44080659-sm.webp`). Eski dört afiş duruyor,
+- **`BANNERS` listesine bir afiş eklendi**, en başa: _1 sentyabr — Buket
+  hyzmaty bizde_ (`1787045401358-44080659-sm.webp`). Eski dört afiş duruyor,
   toplam 5.
 - **Yazı düzeltmesi:** "Gül Gülüstan" → **"Gül Gülistan"** — sayfa başlığı
   (`<title>`), alt bilgi, `CONFIG.brand` ve üçüncü afişin yazısı.
@@ -269,9 +269,5 @@ Bu veri panelde de böyle — site doğru aktardı. Fiyatlar gerçekten girilece
 panelde düzeltip yeni bir dışa aktarma almak gerekir.
 88 of the 120 products come out of the panel with a price of `0`; that is how
 the export is, not a conversion loss. Fix them in the panel and re-export.
-
-
-
-
 
 git add -A && git commit -m "cache busting + readme" && git push
