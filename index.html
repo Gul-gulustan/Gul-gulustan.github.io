@@ -43,11 +43,35 @@
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
     <meta name="theme-color" content="#f97316" />
-    <title>Gül Gülistan </title>
+    <title>Gül Gülistan</title>
     <link
       rel="icon"
       href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>"
     />
+
+    <!-- ÖN YÜKLEME / preload — sayfanın en çok beklediği üç dosya.
+         Bunlar olmasa tarayıcı sırayla çalışırdı: önce index.html insin, sonra
+         en alttaki app.js insin, sonra app.js çalışıp logonun adresini yazsın,
+         EN SON logo inmeye başlasın. Dört ayrı bekleme. Buradaki satırlar
+         üçünü de daha ilk saniyede aynı anda başlatır.
+         DİKKAT: v numarası aşağıdaki iki satırla AYNI olmalı, logo adresi de
+         app.js'deki CONFIG.logo ile aynı olmalı — tutmazsa dosya iki kez iner.
+
+         Without these the browser works in a chain: download index.html, then
+         reach app.js at the bottom and download it, then run it so it can set
+         the logo's URL, and only then start the logo. Four waits in a row.
+         These lines start all three in the first second instead.
+         NOTE: keep the ?v= number identical to the two tags at the bottom, and
+         keep the logo path identical to CONFIG.logo in app.js — a mismatch
+         downloads the file twice. -->
+    <link
+      rel="preload"
+      href="uploads/logo.webp"
+      as="image"
+      fetchpriority="high"
+    />
+    <link rel="preload" href="styles.css?v=4" as="style" />
+    <link rel="preload" href="app.js?v=4" as="script" />
 
     <!-- Açılış ekranı / boot screen. Sayfa JS ile çizildiği için, dosyanın geri
          kalanı inerken ekran boş kalmasın diye burada — en üstte — duruyor.
@@ -501,19 +525,58 @@
          geciktiriyordu. Yukarıdaki açılış ekranı zaten her şeyi örtüyor.
          The main stylesheet loads here, not in <head>: up there it blocked
          first paint. The boot screen above already covers the page. -->
-    <!-- ?v=3 — önbellek kırıcı / cache buster.
+    <!-- ?v=4 — önbellek kırıcı / cache buster.
          Tarayıcı styles.css ve app.js dosyalarını 10 dakika saklar, bu yüzden
          push'tan sonra müşteri eski fiyatları görebiliyordu. Adresin sonundaki
          ?v=... değişince tarayıcı onu BAŞKA bir dosya sayar ve yeniden indirir.
-         HER YAYINDAN SONRA iki satırdaki sayıyı da bir artır: v=3 → v=4.
+         HER YAYINDAN SONRA iki satırdaki sayıyı da bir artır: v=4 → v=5.
          The browser keeps styles.css and app.js for 10 minutes, so after a push
          customers could still see the old prices. Changing ?v=... makes the
          browser treat it as a DIFFERENT file and fetch it again. Bump the
-         number on BOTH lines after every publish: v=3 → v=4. -->
-    <link rel="stylesheet" href="styles.css?v=3" />
+         number on BOTH lines after every publish: v=4 → v=5. -->
+    <link rel="stylesheet" href="styles.css?v=4" />
 
     <!-- Sayfa çizildikten sonra çalışır, o yüzden defer gerekmez.
          Runs after the page is parsed, so it needs no defer. -->
-    <script src="app.js?v=3"></script>
+    <script src="app.js?v=4"></script>
+
+    <!-- SERVICE WORKER — siteyi ziyaretçinin cihazında saklar, ikinci
+         ziyaretten sonra sayfa ağ beklemeden açılır. Kuralların tamamı
+         sw.js dosyasının başındaki açıklamada.
+         Keeps the site on the visitor's device so later visits open without
+         waiting for the network. The rules are documented at the top of sw.js.
+
+         `load` olayından sonra kaydedilir: ilk açılışla yarışmasın.
+         Registered after `load` so it never competes with the first paint.
+
+         KAÇIŞ KAPISI / escape hatch: adrese ?sw-off ekleyip açmak worker'ı
+         siler ve tüm kopyaları temizler. -->
+    <script>
+      (function () {
+        if (!("serviceWorker" in navigator)) return;
+        // file:// ile açıldığında (dosyaya çift tıklama) çalışmaz, hata vermesin.
+        if (!location.protocol.startsWith("http")) return;
+
+        if (new URLSearchParams(location.search).has("sw-off")) {
+          navigator.serviceWorker.ready
+            .then(function (reg) {
+              reg.active && reg.active.postMessage("sw-off");
+              return reg.unregister();
+            })
+            .catch(function () {});
+          if (window.caches)
+            caches.keys().then(function (keys) {
+              keys.forEach(function (k) {
+                caches.delete(k);
+              });
+            });
+          return;
+        }
+
+        addEventListener("load", function () {
+          navigator.serviceWorker.register("sw.js").catch(function () {});
+        });
+      })();
+    </script>
   </body>
 </html>

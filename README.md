@@ -197,7 +197,167 @@ having to clear anything. To see it immediately yourself:
 - Gizli / incognito pencerede aç
 - Telefonda ana ekrana eklediysen: kısayolu sil, siteyi aç, tekrar ekle
 
-## 8. Değişiklik günlüğü / Changelog
+## 8. Sayfa neden yavaş açılıyordu / Why the page opened slowly
+
+Sorun sunucu değildi — GitHub Pages dosyaları hızlı veriyor (`index.html` 6 KB,
+`app.js` 20 KB sıkıştırılmış). Sorun **açılışta inen resimlerdi ve sıranın
+yanlış olmasıydı**. Üç şey düzeltildi:
+
+The server was never the problem — GitHub Pages delivers the files quickly
+(6 KB of HTML, 20 KB of gzipped JS). The problem was **which images loaded at
+boot, and in what order**. Three fixes:
+
+**1. Zincir kırıldı / the chain was broken.** Logonun adresi `app.js` içindeki
+`CONFIG.logo`'dan gelir, yani tarayıcı sırayla bekliyordu: *index.html insin →
+app.js insin → app.js çalışsın → logo inmeye başlasın*. Dört bekleme arka
+arkaya. `index.html`'in `<head>` kısmına eklenen `<link rel="preload">`
+satırları `styles.css`, `app.js` ve logoyu **aynı anda** başlatır.
+
+The logo's URL lives in `CONFIG.logo` inside `app.js`, so the browser waited in
+a chain: *HTML → app.js → run it → only now start the logo*. The
+`<link rel="preload">` lines in `<head>` start all three at once instead.
+
+**2. Afişler tek tek iniyor / banners load one at a time.** Beş afişin beşi de
+açılışta iniyordu — **91 KB**, üstelik dördü ilk 3,5 saniye boyunca görünmüyor
+bile. Artık sadece görünen afiş iner; kalanlar `data-src` olarak bekler ve
+sayfa boşa çıkınca (`requestIdleCallback`) arka planda tamamlanır.
+
+All five banners used to download at boot — **91 KB**, four of which nobody
+sees for the first 3.5 seconds. Now only the visible one loads; the rest wait
+in `data-src` and fill in once the page is idle.
+
+**3. 120 kart iki adımda çiziliyor / the grid draws in two steps.** Önce bütün
+kategori başlıkları + ilk kategorinin kartları, hemen sonraki karede kalan
+kartlar. Başlıklar en baştan var olduğu için kategori şeridine basmak çalışır.
+
+First every section heading plus the first category's cards, then the remaining
+cards on the next frame. The headings exist from the start, so tapping a
+category still works during that frame.
+
+Ölçüm / measured — sunucunun kendi kaydından, istek sırası:
+
+```
+ÖNCE / BEFORE                        SONRA / AFTER
+1 index.html                         1 index.html
+2 styles.css                         2 styles.css
+3 app.js                             3 app.js
+4 logo.webp                          4 logo.webp      ← preload ile erken başlar
+5 hero-right / hero-left             5 afiş #1 / banner #1
+7  afiş #4  ┐                        6 hero-left / hero-right (düşük öncelik)
+8  afiş #1  │ 91 KB, hepsi           …
+9  afiş #2  │ menüden ÖNCE          80 afiş #4  ┐ boşta, menü göründükten
+10 afiş #3  │                       126 afiş #2  │ sonra / after the menu
+11 afiş #5  ┘                       128 afiş #3  ┘ is already on screen
+```
+
+Açılış ekranı (dönen çizgi) zaten en baştan görünüyordu; o `index.html`'in
+içinde, hiçbir dosyayı beklemez. Değişen şey, ondan **sonrasının** ne kadar
+sürdüğü.
+
+The boot screen was already instant — it is inline in `index.html` and waits
+for nothing. What changed is how long everything *after* it takes.
+
+> Değiştirirsen dikkat / if you edit: `<head>`'deki preload satırlarındaki
+> `?v=` numarası en alttaki iki satırla aynı olmalı, logo yolu da `CONFIG.logo`
+> ile aynı olmalı. Tutmazsa dosya iki kez iner — yavaşlatır, hızlandırmaz.
+
+## 9. Service worker: ikinci ziyaret ağsız açılır / offline-capable
+
+`sw.js` sayfayı ziyaretçinin kendi cihazında saklar. İlk ziyaret normal
+hızdadır; ikinciden sonra sayfa diskten açılır — ağ hiç beklenmez, **internet
+olmasa bile dükkân açılır**.
+
+The first visit is normal speed; from the second on the page opens from the
+visitor's own disk, with no network wait — **it opens with no signal at all**.
+
+Üç ayrı kural var, üçü de bilerek farklı / three deliberately different rules:
+
+| Ne | Kural | Neden |
+| --- | --- | --- |
+| `index.html` | **önce ağ** / network first | Push ettiğin değişiklik gecikmeden görünsün. Ağ yoksa diskteki kopya. |
+| `app.js?v=` · `styles.css?v=` | **önce disk** / cache first | Adreste `?v=` var; yeni sürüm zaten **başka bir adres**, eskisi asla yanlışlıkla verilmez. |
+| `uploads/…` | **önce disk** / cache first | Dosya adları benzersiz (zaman damgalı), aynı ad başka resme işaret etmez. |
+
+Ziyaretçi sayacı gibi **dış adresler hiç karıştırılmaz**, dokunmadan geçer.
+
+### Yayınlarken ne yapmalısın / what to do when you publish
+
+**Hiçbir şey değişmiyor.** 7. bölümdeki kural aynen geçerli: `?v=` numarasını
+artır, push et. Yeni numara yeni adrestir, diskte bulunmaz, ağdan iner.
+`sw.js` içindeki `VERSION` satırına **dokunmana gerek yok** — onu sadece "her
+şey sıfırdan insin" istediğinde artırırsın.
+
+Nothing changes: bump `?v=` and push, exactly as in section 7. You do **not**
+need to touch `VERSION` in `sw.js`; that is only for forcing a full re-download.
+
+### Bir şey ters giderse / if it ever misbehaves
+
+Adresin sonuna `?sw-off` ekleyip aç:
+
+```
+https://gul-gulustan.github.io/?sw-off
+```
+
+Service worker silinir, saklanan bütün kopyalar temizlenir. Sonra siteyi normal
+aç — temiz bir kopya iner ve worker yeniden kurulur.
+
+Opening the site with `?sw-off` unregisters the worker and wipes every cached
+copy; loading it normally afterwards fetches a clean copy and re-installs.
+
+> Kalıcı olarak kapatmak istersen `?sw-off` yetmez — `index.html`'in en
+> altındaki service worker `<script>` bloğunu silmen gerekir. `?sw-off` bir
+> temizlik düğmesidir, kapatma anahtarı değil.
+> To turn it off for good, delete the service worker `<script>` block at the
+> bottom of `index.html`; `?sw-off` is a reset button, not an off switch.
+
+### Ölçüm / verified
+
+Kanıt: yerel sunucu **tamamen kapatıldı**, sonra sayfa yeniden açıldı —
+
+```
+sunucu: bağlantı reddedildi / connection refused
+  başlık        Gül Gülistan — Заказ онлайн
+  kategori      7
+  kart          117
+  logo          yüklendi
+  resim         127 adet ekranda
+```
+
+Küçük not: saklanan kopyalar zamanla birikir (şu an ~3 MB resim). Tarayıcı yer
+sıkışınca kendisi temizler; senin bir şey yapman gerekmez.
+The stored copies grow over time (~3 MB of images today). Browsers evict them
+under storage pressure on their own.
+
+## 10. Değişiklik günlüğü / Changelog
+
+### 2026-08-19 — service worker
+
+- Yeni dosya **`sw.js`** — index.html önce ağ, `?v=`'li dosyalar ve `uploads/`
+  önce disk, dış adresler dokunulmadan geçer.
+- `index.html` en altına kayıt `<script>`'i (`load` olayından sonra, `file://`
+  ve `?sw-off` korumalı).
+- Sunucu kapatılarak test edildi: sayfa tamamen diskten açıldı (117 kart,
+  7 kategori, 127 resim). `?sw-off` kayıt ve kopyaları sildi, sonra temiz kurdu.
+- `?v=` **değişmedi** (4) — app.js ve styles.css bu turda değişmedi.
+
+Ayrıntı 9. bölümde. / Details in section 9.
+
+### 2026-08-19 — açılış hızı / boot speed
+
+- `index.html` `<head>`: `styles.css`, `app.js` ve `uploads/logo.webp` için
+  `<link rel="preload">`.
+- `renderHero()`: logo `fetchpriority="high"`, yan süsler `fetchpriority="low"`
+  + `decoding="async"` — süsler menüyle bant genişliği yarışmaz.
+- `renderBanner()`: sadece görünen afiş `src` alır, kalanlar `data-src`;
+  yeni `hydrateBanner()` onları boşta / ilk kaydırmada tamamlar. **91 KB** açılış
+  yükünden çıktı.
+- `renderContent()`: 120 kart tek seferde değil, iki adımda çiziliyor
+  (`contentPass` sayacı dil değişiminde yarışı önler).
+- Sürüm `?v=3` → **`?v=4`**.
+
+Ayrıntılı açıklama 8. bölümde. Ürün, fiyat, resim, dil ve `CONFIG` değişmedi.
+Full explanation in section 8. No product, price, image, language or `CONFIG`
+change.
 
 ### 2026-08-18 — rusça adlar / Russian names
 

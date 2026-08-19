@@ -1514,8 +1514,19 @@ const lockScroll = () => {
 
 /* -------------------------------------------------------------------- hero */
 function renderHero() {
+  // Logo önce insin: index.html'de <link rel="preload"> ile zaten başlatıldı,
+  // burada sadece aynı adresi veriyoruz — tarayıcı ikinci kez indirmez.
+  // Yan süsler sayfayı geciktirmesin diye düşük öncelikli.
+  // The logo is already in flight via <link rel="preload"> in index.html; the
+  // same URL here reuses that download. The side decorations are marked low
+  // priority so they never compete with the menu.
+  els.heroLogo.fetchPriority = "high";
   els.heroLogo.src = CONFIG.logo;
   els.heroLogo.alt = CONFIG.brand;
+  [els.heroLeft, els.heroRight].forEach((img) => {
+    img.fetchPriority = "low";
+    img.decoding = "async";
+  });
   els.heroLeft.src = CONFIG.heroLeft;
   els.heroRight.src = CONFIG.heroRight;
   [els.heroLogo, els.heroLeft, els.heroRight].forEach((img) => {
@@ -1561,13 +1572,20 @@ function renderBanner() {
   banner.last = banner.loop ? BANNERS.length : 0;
   banner.index = banner.first;
 
+  // Açılışta sadece GÖRÜNEN afişin resmi inar. Diğerleri `data-src` olarak
+  // bekler, sayfa boşa çıkınca hydrateBanner() onları tamamlar. Eskiden beş
+  // afişin beşi de aynı anda inerdi — menü görünmeden ~90 KB harcanıyordu.
+  // Only the slide you can actually see is fetched at boot. The rest wait in
+  // `data-src` until hydrateBanner() fills them in once the page goes idle.
+  // All five used to download at once — ~90 KB spent before the menu appeared.
   els.bannerTrack.innerHTML = banner.slides
-    .map((b) => {
+    .map((b, i) => {
       const title = tr(b.title),
         text = tr(b.text);
+      const now = i === banner.first;
       return `
 <div class="slide">
-  ${b.image ? `<img src="${imgUrl(b.image)}" alt="${escape(title)}" draggable="false" onerror="this.remove()" />` : ""}
+  ${b.image ? `<img ${now ? `src="${imgUrl(b.image)}" fetchpriority="high"` : `data-src="${imgUrl(b.image)}"`} alt="${escape(title)}" draggable="false" decoding="async" onerror="this.remove()" />` : ""}
   <div class="veil"></div>
   ${title || text ? `<div class="txt">${title ? `<b>${escape(title)}</b>` : ""}${text ? `<span>${escape(text)}</span>` : ""}</div>` : ""}
 </div>`;
@@ -1585,11 +1603,23 @@ function renderBanner() {
   restartBanner();
 }
 
+// Bekleyen afiş resimlerini indirir. İki yerden çağrılır: sayfa boşa çıkınca
+// ve afiş ilk kez kaydığında — hangisi önce olursa.
+// Pulls in the deferred banner pictures. Called from two places: when the page
+// goes idle, and when the banner first moves — whichever happens first.
+function hydrateBanner() {
+  els.bannerTrack.querySelectorAll("img[data-src]").forEach((img) => {
+    img.src = img.dataset.src;
+    delete img.dataset.src;
+  });
+}
+
 // A clone shows the same picture as its twin, so stepping from either is equal.
 const twin = (i) =>
   i === banner.slides.length - 1 ? banner.first : i === 0 ? banner.last : i;
 
 function moveBanner(animate = true) {
+  if (animate) hydrateBanner();
   els.bannerTrack.style.transition = animate
     ? "transform 500ms ease-in-out"
     : "none";
@@ -1775,17 +1805,49 @@ function card(p) {
 </div>`;
 }
 
+// Sayfa 120 kartla açılıyordu; telefonda hepsinin yerleşimi hesaplanana kadar
+// ekran boş kalıyordu. Şimdi iki adımda çiziliyor: önce bütün kategori
+// başlıkları + İLK kategorinin kartları (ekranda görünen kadarı), hemen
+// ardından — ilk boyamadan sonraki karede — kalan kartlar doldurulur.
+// Başlıklar en baştan var olduğu için kategori şeridi ve kaydırma bozulmaz.
+//
+// The page used to build all 120 cards before its first paint, so a phone sat
+// on a blank screen while it laid them out. Now it draws in two steps: every
+// section heading plus the FIRST category's cards, then the remaining cards on
+// the very next frame. The headings exist from the start, so the category rail
+// and scrolling keep working during that one frame.
+let contentPass = 0;
+
 function renderContent() {
+  const pass = ++contentPass;
+
   els.content.innerHTML = MENU.map(
-    (cat) => `
+    (cat, i) => `
 <section class="section" id="cat-${escape(cat.id)}" data-cat="${escape(cat.id)}">
 <div class="section-head">
   <h2>${escape(nameOf(cat))}</h2>
   <span class="n">${cat.items.length} ${escape(t("item"))}</span>
 </div>
-<div class="grid">${cat.items.map(card).join("")}</div>
+<div class="grid">${i === 0 ? cat.items.map(card).join("") : ""}</div>
 </section>`,
   ).join("");
+
+  if (MENU.length < 2) return;
+
+  requestAnimationFrame(() => {
+    // Bu arada dil değiştiyse yeni çizim işi devraldı, bu turu bırak.
+    // A newer render (language switch) took over meanwhile — drop this pass.
+    if (pass !== contentPass) return;
+    MENU.forEach((cat, i) => {
+      if (i === 0) return;
+      const grid = document
+        .getElementById(`cat-${cat.id}`)
+        ?.querySelector(".grid");
+      if (grid && !grid.firstChild)
+        grid.innerHTML = cat.items.map(card).join("");
+    });
+    sweepImages();
+  });
 }
 
 /* ------------------------------------------------------- big image popup */
@@ -2477,6 +2539,11 @@ parallax(window.scrollY);
 countVisit();
 
 // Menü çizildi; açılış ekranını kaldır. / Menu is on screen, drop the boot screen.
+// Sayfa boşa çıkınca bekleyen afiş resimleri arka planda insin.
+// Once the page is idle, quietly finish downloading the other banner pictures.
+const whenIdle = window.requestIdleCallback || ((fn) => setTimeout(fn, 1200));
+whenIdle(() => hydrateBanner(), { timeout: 2500 });
+
 requestAnimationFrame(() => {
   els.html.classList.add("ready");
   const boot = document.getElementById("boot");
