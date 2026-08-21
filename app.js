@@ -949,6 +949,24 @@ const MENU = [
         price: 850,
         image: "1786652622338-348532014-sm.webp",
       },
+        {
+        id: "p11424",
+        name: {
+          tk: "Kompozisiya 21",
+          ru: "Композиция 21",
+        },
+        price: 1500,
+        image: "ak_ganat.webp",
+      },
+        {
+        id: "p11425",
+        name: {
+          tk: "Kompozisiya 22",
+          ru: "Композиция 22",
+        },
+        price: 900,
+        image: "gyzyl_ganat.webp",
+      },
     ],
   },
   {

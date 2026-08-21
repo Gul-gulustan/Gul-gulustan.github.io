@@ -88,8 +88,22 @@ self.addEventListener("fetch", (event) => {
   // Other origins (the visit counter) are none of our business.
   if (new URL(req.url).origin !== self.location.origin) return;
 
+  // uploads/ → dosya adları benzersiz, sorup durmanın anlamı yok: hep diskten.
+  // Geri kalan her şey (app.js, styles.css) → diskten ver AMA arkadan
+  // yenisini indir. Böylece `?v=` artırmayı unutsan bile site en fazla bir
+  // ziyaret geride kalır; sonsuza kadar eskide takılı kalmaz.
+  //
+  // uploads/ have unique names, so there is nothing to re-check: always disk.
+  // Everything else is served from disk AND refreshed in the background, so
+  // forgetting to bump `?v=` costs one visit, never forever.
+  const isUpload = new URL(req.url).pathname.includes("/uploads/");
+
   event.respondWith(
-    req.mode === "navigate" ? networkFirst(req) : cacheFirst(req),
+    req.mode === "navigate"
+      ? networkFirst(req)
+      : isUpload
+        ? cacheFirst(req)
+        : staleWhileRevalidate(req, event),
   );
 });
 
@@ -97,7 +111,11 @@ self.addEventListener("fetch", (event) => {
 async function networkFirst(req) {
   const cache = await caches.open(VERSION);
   try {
-    const res = await fetch(req);
+    // "no-cache": tarayıcının 10 dakikalık kopyasını atla, sunucuya sor.
+    // Sunucu değişmediyse zaten minik bir "304" döner, pahalı değil.
+    // Skip the browser's own 10-minute copy and ask the server; an unchanged
+    // file just answers "304", which costs almost nothing.
+    const res = await fetch(req, { cache: "no-cache" });
     if (res && res.ok) cache.put(req, res.clone());
     return res;
   } catch {
@@ -106,7 +124,8 @@ async function networkFirst(req) {
   }
 }
 
-// app.js?v= / styles.css?v= / uploads: disk önce, yoksa ağdan al ve sakla.
+// uploads/: disk önce. Yoksa ağdan al ve sakla. Bir daha asla sorulmaz.
+// Cache first, and never asked about again — the filename is unique.
 async function cacheFirst(req) {
   const cache = await caches.open(VERSION);
   const hit = await cache.match(req);
@@ -116,4 +135,54 @@ async function cacheFirst(req) {
   // Sadece kendi dosyalarımızın sağlam yanıtları saklanır.
   if (res && res.ok && res.type === "basic") cache.put(req, res.clone());
   return res;
+}
+
+// app.js?v= / styles.css?v= : diskten HEMEN ver (sayfa hızlı açılsın), aynı
+// anda sessizce yenisini indirip sakla. Yeni sürüm BİR SONRAKİ açılışta gelir.
+//
+// `?v=` numarasını artırdıysan bu yola hiç girilmez: yeni adres diskte yok,
+// doğrudan ağdan iner ve değişiklik ANINDA görünür. Bu sadece unutursan
+// devreye giren emniyet ağı.
+//
+// Serve from disk immediately so the page opens fast, and quietly fetch a
+// fresh copy at the same time; it lands on the NEXT open. If you did bump
+// `?v=`, none of this runs — the new URL is not on disk, so it comes straight
+// from the network and shows up at once. This is the safety net for when you
+// forget.
+async function staleWhileRevalidate(req, event) {
+  const cache = await caches.open(VERSION);
+  const hit = await cache.match(req);
+
+  const fresh = fetch(req, { cache: "no-cache" })
+    .then(async (res) => {
+      if (res && res.ok && res.type === "basic") {
+        await cache.put(req, res.clone());
+        await dropOldVersions(cache, req.url);
+      }
+      return res;
+    })
+    .catch(() => null);
+
+  // Cevabı verdikten sonra da indirme sürsün diye worker'ı ayakta tutar.
+  // Keeps the worker alive so the background download finishes after we reply.
+  event.waitUntil(fresh);
+
+  return hit || (await fresh) || Response.error();
+}
+
+// app.js?v=5 saklandığında app.js?v=4 diskte durmaya devam ediyordu. Aynı
+// dosyanın eski `?v=` kopyalarını siler — depo şişmesin.
+// Storing app.js?v=5 used to leave app.js?v=4 behind for good. This deletes
+// the older `?v=` copies of the same file so storage does not creep up.
+async function dropOldVersions(cache, keepUrl) {
+  const keep = new URL(keepUrl);
+  const keys = await cache.keys();
+  await Promise.all(
+    keys.map((r) => {
+      const u = new URL(r.url);
+      const sameFile = u.pathname === keep.pathname;
+      const olderCopy = u.search !== keep.search;
+      return sameFile && olderCopy ? cache.delete(r) : null;
+    }),
+  );
 }

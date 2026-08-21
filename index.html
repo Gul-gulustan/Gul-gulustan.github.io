@@ -70,8 +70,8 @@
       as="image"
       fetchpriority="high"
     />
-    <link rel="preload" href="styles.css?v=4" as="style" />
-    <link rel="preload" href="app.js?v=4" as="script" />
+    <link rel="preload" href="styles.css?v=5" as="style" />
+    <link rel="preload" href="app.js?v=5" as="script" />
 
     <!-- Açılış ekranı / boot screen. Sayfa JS ile çizildiği için, dosyanın geri
          kalanı inerken ekran boş kalmasın diye burada — en üstte — duruyor.
@@ -525,7 +525,7 @@
          geciktiriyordu. Yukarıdaki açılış ekranı zaten her şeyi örtüyor.
          The main stylesheet loads here, not in <head>: up there it blocked
          first paint. The boot screen above already covers the page. -->
-    <!-- ?v=4 — önbellek kırıcı / cache buster.
+    <!-- ?v=5 — önbellek kırıcı / cache buster.
          Tarayıcı styles.css ve app.js dosyalarını 10 dakika saklar, bu yüzden
          push'tan sonra müşteri eski fiyatları görebiliyordu. Adresin sonundaki
          ?v=... değişince tarayıcı onu BAŞKA bir dosya sayar ve yeniden indirir.
@@ -534,11 +534,11 @@
          customers could still see the old prices. Changing ?v=... makes the
          browser treat it as a DIFFERENT file and fetch it again. Bump the
          number on BOTH lines after every publish: v=4 → v=5. -->
-    <link rel="stylesheet" href="styles.css?v=4" />
+    <link rel="stylesheet" href="styles.css?v=5" />
 
     <!-- Sayfa çizildikten sonra çalışır, o yüzden defer gerekmez.
          Runs after the page is parsed, so it needs no defer. -->
-    <script src="app.js?v=4"></script>
+    <script src="app.js?v=5"></script>
 
     <!-- SERVICE WORKER — siteyi ziyaretçinin cihazında saklar, ikinci
          ziyaretten sonra sayfa ağ beklemeden açılır. Kuralların tamamı

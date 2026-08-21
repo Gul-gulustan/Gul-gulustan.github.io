@@ -275,10 +275,29 @@ visitor's own disk, with no network wait — **it opens with no signal at all**.
 | Ne | Kural | Neden |
 | --- | --- | --- |
 | `index.html` | **önce ağ** / network first | Push ettiğin değişiklik gecikmeden görünsün. Ağ yoksa diskteki kopya. |
-| `app.js?v=` · `styles.css?v=` | **önce disk** / cache first | Adreste `?v=` var; yeni sürüm zaten **başka bir adres**, eskisi asla yanlışlıkla verilmez. |
+| `app.js?v=` · `styles.css?v=` | **diskten ver + arkadan yenile** / stale-while-revalidate | Sayfa anında açılsın diye diskten verilir, aynı anda yenisi indirilip saklanır. `?v=` artırdıysan zaten yeni adrestir, anında gelir. |
 | `uploads/…` | **önce disk** / cache first | Dosya adları benzersiz (zaman damgalı), aynı ad başka resme işaret etmez. |
 
 Ziyaretçi sayacı gibi **dış adresler hiç karıştırılmaz**, dokunmadan geçer.
+
+### "Ya `?v=` artırmayı unutursam?" / what if you forget to bump `?v=`
+
+Kısa cevap: **müşteri en fazla bir ziyaret geride kalır, sonra kendiliğinden
+düzelir.** Sonsuza kadar eskide takılı kalmaz.
+
+| Ne yaptın | Müşteri ne görür |
+| --- | --- |
+| `?v=` artırdın (doğrusu) | Yeni sürümü **hemen**, ilk açılışta |
+| `?v=` artırmayı unuttun | O açılışta eskisini, **bir sonraki açılışta yenisini** |
+| Hiç `?v=` yokken (eski hâli) | Eskisini **sonsuza kadar** — bu yüzden düzeltildi |
+
+Sebebi: `app.js` diskten verilirken arka planda sessizce yeniden indirilir ve
+saklanır. Bir sonraki açılışta artık yeni kopya diskten gelir. `index.html`
+zaten hep ağdan sorulur, o hiç eskimez.
+
+Short answer: **a customer is at most one visit behind, then it heals itself.**
+`app.js` is served from disk while a fresh copy downloads in the background, so
+the next open already has it. `index.html` is always asked over the network.
 
 ### Yayınlarken ne yapmalısın / what to do when you publish
 
@@ -329,6 +348,29 @@ The stored copies grow over time (~3 MB of images today). Browsers evict them
 under storage pressure on their own.
 
 ## 10. Değişiklik günlüğü / Changelog
+
+### 2026-08-21 — service worker düzeltmesi / stale-while-revalidate fix
+
+**Neyi düzeltti:** `sw.js`'in ilk hâli `app.js?v=`'yi *sadece* diskten
+veriyordu. `?v=` artırmayı unutursan müşteri eski sürümde **kalıcı olarak**
+takılı kalıyordu — testte 3 ziyaret üst üste eski adı gösterdi, sunucuda yenisi
+dururken.
+
+The first `sw.js` served `app.js?v=` from disk only, so forgetting to bump `?v=`
+pinned customers to the old version **permanently** — three consecutive test
+visits showed the stale name while the server had the new one.
+
+- `staleWhileRevalidate()` eklendi: diskten anında verilir, arkadan yenisi
+  indirilip saklanır → en fazla bir ziyaret gecikme.
+- `dropOldVersions()` eklendi: `app.js?v=5` saklanınca `?v=4` silinir.
+- `index.html` artık `fetch(..., {cache:"no-cache"})` ile sorulur — tarayıcının
+  10 dakikalık kopyası atlanır, push anında görünür.
+- `uploads/` aynı kaldı (adlar benzersiz, önce disk).
+- Sürüm `?v=4` → **`?v=5`**.
+
+Test edildi / verified: `?v=` artırınca **tek** ziyarette yeni sürüm geldi;
+artırmadan bırakınca ikinci ziyarette kendiliğinden düzeldi; sunucu tamamen
+kapatıldığında sayfa yine diskten açıldı.
 
 ### 2026-08-19 — service worker
 
